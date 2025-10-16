@@ -1,0 +1,33 @@
+agents:
+  - name: ScoutLeader
+    model: grok-code-fast-1
+    role: Scout Leader
+    goal: Explore the map and report resources or threats
+    tools:
+      - explore_grid:
+          function: move_group
+          params:
+            grid_size: [20, 20]
+      - report:
+          function: update_memory
+          params:
+            key: scout_report
+    memory: vector_db
+    backstory: An experienced scout leading a team to map the savanna for resources and dangers.
+
+  - name: GathererHead
+    model: grok-code-fast-1
+    role: Gatherer Head
+    goal: Optimize food and material collection based on scout reports
+    tools:
+      - gather_resource:
+          function: gather
+          params:
+            resource_type: [food, materials]
+            amount: 10
+      - read_scout_report:
+          function: access_memory
+          params:
+            key: scout_report
+    memory: vector_db
+    backstory: A diligent leader managing gatherers to sustain the tribe's resources.
